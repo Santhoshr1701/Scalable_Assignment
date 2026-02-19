@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="product-detail" *ngIf="product">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="product-image-container">
+          <img [src]="product.imageUrl" alt="{{ product.name }}" class="product-image" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="product-info">
+          <h1>{{ product.name }}</h1>
+          
+          <div class="product-meta" *ngIf="product.category || product.rating">
+            <span class="category" *ngIf="product.category">
+              Category: <strong>{{ product.category }}</strong>
+            </span>
+            <span class="rating" *ngIf="product.rating">
+              Rating: <strong>★ {{ product.rating }}/5</strong>
+            </span>
+          </div>
+
+          <p class="description">{{ product.description }}</p>
+
+          <div class="price-section">
+            <p class="price">{{ product.price | priceFormat }}</p>
+          </div>
+
+          <div class="quantity-section">
+            <label>Quantity:</label>
+            <input type="number" min="1" max="10" value="1" class="quantity-input">
+          </div>
+
+          <button class="btn btn-success btn-lg" (click)="addToCart(product)">
+            🛒 Add to Cart
+          </button>
+
+          <button class="btn btn-outline-secondary btn-sm" routerLink="/">
+            ← Continue Shopping
+          </button>
+
+          <div class="product-features mt-4">
+            <h4>Product Features</h4>
+            <ul>
+              <li>✓ High quality product</li>
+              <li>✓ Fast shipping available</li>
+              <li>✓ 30-day money back guarantee</li>
+              <li>✓ 1 year warranty</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!product" class="alert alert-warning">
+    Product not found.
+  </div>
+</div>

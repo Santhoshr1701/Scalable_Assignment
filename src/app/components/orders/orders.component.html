@@ -1,0 +1,164 @@
+<div class="container orders-container">
+  <div class="orders-header">
+    <h2>📦 My Orders</h2>
+    <p class="subtitle">View and manage your order history</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading your orders...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage && !isLoading" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Error!</strong> {{ errorMessage }}
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && orders.length === 0" class="empty-state">
+    <div class="empty-icon">🛒</div>
+    <h3>No Orders Yet</h3>
+    <p>You haven't placed any orders yet. Start shopping to create your first order!</p>
+    <button class="btn btn-primary btn-lg" (click)="continueShopping()">
+      Continue Shopping
+    </button>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="!isLoading && orders.length > 0" class="orders-section">
+    <!-- Orders Summary -->
+    <div class="orders-summary">
+      <div class="summary-card">
+        <h3>{{ orders.length }}</h3>
+        <p>Total Orders</p>
+      </div>
+      <div class="summary-card">
+        <h3>{{ (orders | slice:0:1)[0]?.status | uppercase }}</h3>
+        <p>Latest Status</p>
+      </div>
+      <div class="summary-card">
+        <h3>{{'$'}}{{ getTotalSpent() | number:'1.2-2' }}</h3>
+        <p>Total Spent</p>
+      </div>
+    </div>
+
+    <!-- Orders Table/Cards -->
+    <div class="orders-list">
+      <div *ngFor="let order of orders" class="order-card">
+        <!-- Order Header (Clickable) -->
+        <div class="order-header" [class.expanded]="selectedOrder?.id === order.id" (click)="selectOrder(order)">
+          <div class="order-info">
+            <div class="order-id-date">
+              <h4>Order #{{ order.id }}</h4>
+              <span class="order-date">{{ order.orderDate | date:'MMM dd, yyyy' }}</span>
+            </div>
+            <div class="order-status">
+              <span [ngClass]="'badge ' + getStatusBadgeClass(order.status)">
+                {{ getStatusText(order.status) }}
+              </span>
+            </div>
+          </div>
+          <div class="order-amount">
+            <div class="amount-primary">{{'$'}}{{ order.totalAmount | number:'1.2-2' }}</div>
+            <div class="toggle-icon">
+              <i [class.rotated]="selectedOrder?.id === order.id">▼</i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Details (Expandable) -->
+        <div *ngIf="selectedOrder?.id === order.id" class="order-details">
+          <!-- Items -->
+          <div class="detail-section">
+            <h5>Order Items</h5>
+            <div class="items-table">
+              <div class="items-header">
+                <div class="col-product">Product</div>
+                <div class="col-qty">Qty</div>
+                <div class="col-price">Price</div>
+                <div class="col-total">Total</div>
+              </div>
+              <div *ngFor="let item of order.items" class="items-row">
+                <div class="col-product">{{ item.productName }}</div>
+                <div class="col-qty">{{ item.quantity }}</div>
+                <div class="col-price">{{'$'}}{{ item.price | number:'1.2-2' }}</div>
+                <div class="col-total">{{'$'}}{{ item.total | number:'1.2-2' }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery Information -->
+          <div class="detail-section">
+            <h5>Delivery Information</h5>
+            <div class="delivery-info">
+              <div class="info-row">
+                <label>Delivery Address:</label>
+                <p>{{ order.deliveryAddress }}</p>
+              </div>
+              <div class="info-row" *ngIf="order.deliveryDate">
+                <label>Expected Delivery:</label>
+                <p>{{ order.deliveryDate | date:'MMM dd, yyyy' }}</p>
+              </div>
+              <div class="info-row" *ngIf="order.trackingNumber">
+                <label>Tracking Number:</label>
+                <p class="tracking-number">{{ order.trackingNumber }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order Summary -->
+          <div class="detail-section">
+            <h5>Order Summary</h5>
+            <div class="summary-details">
+              <div class="summary-row">
+                <span>Subtotal:</span>
+                <span>{{'$'}}{{ (order.totalAmount * 0.9) | number:'1.2-2' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Shipping:</span>
+                <span>Free</span>
+              </div>
+              <div class="summary-row">
+                <span>Tax (10%):</span>
+                <span>{{'$'}}{{ (order.totalAmount * 0.1) | number:'1.2-2' }}</span>
+              </div>
+              <div class="summary-row total">
+                <span>Total:</span>
+                <span>{{'$'}}{{ order.totalAmount | number:'1.2-2' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="order-actions">
+            <button 
+              class="btn btn-sm btn-outline-secondary" 
+              (click)="downloadInvoice(order.id)"
+              title="Download invoice as PDF">
+              📄 Download Invoice
+            </button>
+            <button 
+              *ngIf="order.status !== 'delivered' && order.status !== 'cancelled'" 
+              class="btn btn-sm btn-outline-danger" 
+              (click)="cancelOrder(order.id)">
+              ❌ Cancel Order
+            </button>
+            <button 
+              class="btn btn-sm btn-outline-primary" 
+              (click)="continueShopping()">
+              🛍️ Continue Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back Button -->
+  <div *ngIf="!isLoading && orders.length > 0" class="back-button">
+    <button class="btn btn-secondary" (click)="continueShopping()">
+      ← Back to Shopping
+    </button>
+  </div>
+</div>

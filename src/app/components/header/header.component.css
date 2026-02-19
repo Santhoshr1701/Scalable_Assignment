@@ -1,0 +1,69 @@
+nav.navbar {
+  width: 100%;
+}
+
+.logo a {
+  font-size: 1.8rem;
+  color: #fff !important;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  color: #fff !important;
+  font-weight: 500;
+  margin-left: 2rem;
+  transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #3498db !important;
+}
+
+.header {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.header h1 {
+    font-size: 24px;
+    color: #343a40;
+}
+
+.header nav {
+    display: flex;
+    gap: 15px;
+}
+
+.header nav a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.header nav a:hover {
+    text-decoration: underline;
+}
+
+.cart-icon {
+    position: relative;
+}
+
+.cart-icon .badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}

@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="cart-container">
+    <h2>Your Shopping Cart</h2>
+    
+    <div *ngIf="cartItems.length === 0" class="alert alert-info text-center" role="alert">
+      <p>Your cart is empty. <a routerLink="/">Continue Shopping</a></p>
+    </div>
+
+    <div *ngIf="cartItems.length > 0">
+      <div class="cart-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cartItems">
+              <td>
+                <div class="d-flex align-items-center cart-item-row">
+                  <img [src]="item.imageUrl" 
+                       alt="{{ item.name }}" 
+                       style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-right: 15px;">
+                  <div>
+                    <h5 style="margin: 0;">{{ item.name }}</h5>
+                    <small style="color: #999;">{{ item.description }}</small>
+                  </div>
+                </div>
+              </td>
+              <td class="price-cell">{{ item.price | priceFormat }}</td>
+              <td class="action-cell">
+                <button class="btn btn-sm btn-danger" (click)="removeFromCart(item)">
+                  Remove
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <div class="cart-summary">
+            <h4>Order Summary</h4>
+            <div class="summary-item">
+              <span>Subtotal:</span>
+              <span>{{ totalAmount | priceFormat }}</span>
+            </div>
+            <div class="summary-item">
+              <span>Shipping:</span>
+              <span>Free</span>
+            </div>
+            <div class="summary-item">
+              <span>Tax (10%):</span>
+              <span>{{ (totalAmount * 0.1) | priceFormat }}</span>
+            </div>
+            <div class="summary-item">
+              <span>Total:</span>
+              <span>{{ (totalAmount * 1.1) | priceFormat }}</span>
+            </div>
+            <button class="btn btn-success btn-lg w-100 mt-3" routerLink="/checkout">
+              Proceed to Checkout
+            </button>
+            <button class="btn btn-outline-secondary btn-sm w-100 mt-2" routerLink="/">
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
