@@ -1,6 +1,6 @@
 {
   "buildCommand": "ng build --configuration production",
-  "outputDirectory": "dist/manoj-assignemtone/browser",
+  "outputDirectory": "dist/santhosh-assignemtone/browser",
   "rewrites": [
     {
       "source": "/(.*)",
