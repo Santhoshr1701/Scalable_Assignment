@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "buildCommand": "npm run build",
   "outputDirectory": "dist/ecommerce-app",
+=======
+  "buildCommand": "ng build --configuration production",
+  "outputDirectory": "dist/santhosh-assignemtone/browser",
+>>>>>>> a04697b557cea964b343145056183e5d0e9f0c40
   "rewrites": [
     {
       "source": "/(.*)",
