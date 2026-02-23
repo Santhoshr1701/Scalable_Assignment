@@ -1,6 +1,6 @@
 {
-  "buildCommand": "ng build --configuration production",
-  "outputDirectory": "dist/manoj-assignemtone/browser",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/ecommerce-app",
   "rewrites": [
     {
       "source": "/(.*)",
